@@ -23,14 +23,10 @@ jobs:
           if [ -f docs/banner.png.b64 ]; then
             sed -i 's/xwCn3Ldex637WEfN/xwCn3Ldew637WEfN/' docs/banner.png.b64
           fi
-          if [ -f docs/parts/shot-03 ]; then
-            sed -i 's/LuEnxSTEKgAAAAA/LuEnxUTEKgAAAAA/' docs/parts/shot-03
-          fi
-          if [ -f docs/parts/shot-16 ]; then
-            sed -i 's|8CV62f/JuP7jfDDRN|8CV62f/LuP7jfDDRN|' docs/parts/shot-16
-          fi
           if ls docs/parts/shot-* >/dev/null 2>&1; then
             cat docs/parts/shot-* | tr -d '[:space:]' > /tmp/shot.b64
+            sed -i 's/LuEnxSTEKgAAAAA/LuEnxUTEKgAAAAA/' /tmp/shot.b64
+            sed -i 's|8CV62f/JuP7jfDDRN|8CV62f/LuP7jfDDRN|' /tmp/shot.b64
             if ! base64 -d /tmp/shot.b64 > docs/screenshot.png.tmp; then
               echo "shot decode failed"
               rm -f docs/screenshot.png.tmp
