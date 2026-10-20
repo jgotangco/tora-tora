@@ -2,14 +2,13 @@
 
 Endless Pacific river raid. Fly the channel, break the bridges, and don't run dry.
 
+![Tora Tora title screen](docs/title.png)
+
 ![Tora Tora in flight](docs/screenshot.png)
 
 A top-down shooter in the River Raid tradition: a winding channel, fuel barges, enemy boats and planes, and bridges that have to come down before the river continues. The art is drawn in code at 320×240 and scaled with crisp pixels. No image files, no audio samples.
 
-| | |
-|---|---|
-| Title | [Title screen](docs/title.png) |
-| Channel | [Combat](docs/combat.png) |
+![Combat over the channel](docs/combat.png)
 
 ## Play
 
