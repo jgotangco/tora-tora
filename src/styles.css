@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0c100e;
+  --color-surface: #161c18;
+  --color-fg: #e6e0cc;
+  --color-muted: #8d9078;
+  --color-primary: #e0a020;
+  --color-accent: #c4482a;
+  --color-border: #2a3328;
+  --color-water: #163a78;
+  --font-mono: "Courier New", ui-monospace, monospace;
+  --radius: 0px;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html,
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-mono);
+  }
+}
+
+.bezel {
+  box-shadow:
+    0 0 0 4px var(--color-bg),
+    0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.crt {
+  position: relative;
+}
+
+.crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.22) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+}
+
+.pixel {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  touch-action: none;
+}
+
+.touch-dock {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .touch-dock {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+    align-items: end;
+    justify-items: center;
+    padding: 0.75rem;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt::after {
+    display: none;
+  }
+}
