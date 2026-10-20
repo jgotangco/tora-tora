@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "**/*.b64"
+      - "docs/parts/**"
       - ".github/workflows/unpack-images.yml"
   workflow_dispatch:
 
@@ -22,6 +23,30 @@ jobs:
           if [ -f docs/banner.png.b64 ]; then
             sed -i 's/xwCn3Ldex637WEfN/xwCn3Ldew637WEfN/' docs/banner.png.b64
           fi
+          if [ -f docs/parts/shot-03 ]; then
+            sed -i 's/LuEnxSTEKgAAAAA/LuEnxUTEKgAAAAA/' docs/parts/shot-03
+          fi
+          if [ -f docs/parts/shot-16 ]; then
+            sed -i 's|8CV62f/JuP7jfDDRN|8CV62f/LuP7jfDDRN|' docs/parts/shot-16
+          fi
+          if ls docs/parts/shot-* >/dev/null 2>&1; then
+            cat docs/parts/shot-* | tr -d '[:space:]' > /tmp/shot.b64
+            if ! base64 -d /tmp/shot.b64 > docs/screenshot.png.tmp; then
+              echo "shot decode failed"
+              rm -f docs/screenshot.png.tmp
+            else
+              got=$(sha256sum docs/screenshot.png.tmp | awk '{print $1}')
+              echo "shot hash $got"
+              if [ "$got" = "1778e092f3218ca1f1eb99a1a7e9a873326c7ff3064b03ff62ae701b766177be" ]; then
+                mv docs/screenshot.png.tmp docs/screenshot.png
+                git add -- docs/screenshot.png
+                echo "ok docs/screenshot.png $got"
+              else
+                echo "hash mismatch docs/screenshot.png $got"
+                rm -f docs/screenshot.png.tmp
+              fi
+            fi
+          fi
           declare -A expect
           expect[docs/banner.png]=169a5b29a32d2836e4da7dbb9ab79ad76147bea9ae2c0f7957b8c6b428de0504
           expect[docs/screenshot.png]=1778e092f3218ca1f1eb99a1a7e9a873326c7ff3064b03ff62ae701b766177be
@@ -33,7 +58,7 @@ jobs:
               rm -f "$out.tmp"
               continue
             fi
-            sig=$(od -An -tx1 -N8 "$out.tmp" | tr -d ' \n')
+            sig=$(od -An -tx1 -N8 "$out.tmp" | tr -d '[:space:]')
             if [ "$sig" != "89504e470d0a1a0a" ]; then
               echo "bad magic $f $sig"
               rm -f "$out.tmp"
