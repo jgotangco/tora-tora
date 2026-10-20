@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Tora Tora">
+  <defs>
+    <clipPath id="tile">
+      <rect width="32" height="32" rx="6"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="32" height="32" fill="#0c100e"/>
+    <rect y="22" width="32" height="10" fill="#163a78"/>
+    <rect x="2" y="12" width="28" height="5" rx="1.2" fill="#e0a020"/>
+    <polygon points="16,3 20,12 19,22 16,27 13,22 12,12" fill="#e6e0cc"/>
+    <circle cx="16" cy="14" r="1.6" fill="#c4482a"/>
+  </g>
+</svg>
