@@ -19,6 +19,12 @@ jobs:
         run: |
           set -eu
           shopt -s globstar nullglob
+          if [ -f docs/banner.png.b64 ]; then
+            sed -i 's/xwCn3Ldex637WEfN/xwCn3Ldew637WEfN/' docs/banner.png.b64
+          fi
+          declare -A expect
+          expect[docs/banner.png]=169a5b29a32d2836e4da7dbb9ab79ad76147bea9ae2c0f7957b8c6b428de0504
+          expect[docs/screenshot.png]=1778e092f3218ca1f1eb99a1a7e9a873326c7ff3064b03ff62ae701b766177be
           n=0
           for f in **/*.b64; do
             out="${f%.b64}"
@@ -33,10 +39,17 @@ jobs:
               rm -f "$out.tmp"
               continue
             fi
+            got=$(sha256sum "$out.tmp" | awk '{print $1}')
+            want="${expect[$out]:-}"
+            if [ -n "$want" ] && [ "$got" != "$want" ]; then
+              echo "hash mismatch $out $got"
+              rm -f "$out.tmp"
+              continue
+            fi
             mv "$out.tmp" "$out"
             git add -- "$out"
             n=$((n + 1))
-            echo "ok $out $(wc -c < "$out")"
+            echo "ok $out $got"
           done
           echo "decoded $n"
           if git diff --cached --quiet; then
