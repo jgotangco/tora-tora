@@ -1,6 +1,6 @@
 # Tora Tora
 
-![Tora Tora](docs/banner.png)
+![Tora Tora](docs/keyart.jpg)
 
 Endless Pacific river raid. Fly the channel, break the bridges, and don't run dry.
 
